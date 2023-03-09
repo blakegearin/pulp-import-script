@@ -1,41 +1,71 @@
-# Pulp QR Code Automation
+<p align="center">
+  <img id="logo" src="https://raw.githubusercontent.com/blakegearin/pulp-import-script/main/images/logo.png" class="center" alt="Pulp Import Script logo" title="Pulp Import Script" width="500" height="500"/>
+</p>
 
-This is a Bash script to automate:
+# Pulp Import Script
 
-1. Generating a QR code
-1. Splicing the QR code into Pulp-friendly PNG tiles
-1. Recombining the QR code tiles into a Pulp-friendly import PNG
+A Bash script to automate image importing into Pulp.
 
 It is not sponsored, endorsed, licensed by, or affiliated with Panic.
+
+## Features
+
+- Outputs both an import-able PNG and individual tiles
+
+- Adds borders for clean tiling
+
+- Generates QR codes
+
+- Configurable via CLI arguments or dotenv
 
 ## Prerequisites
 
 - [Imagemagick](https://imagemagick.org) ([Homebrew](https://formulae.brew.sh/formula/imagemagick))
-- [qrencode](https://fukuchi.org/works/qrencode/index.html.en) ([Homebrew](https://formulae.brew.sh/formula/qrencode))
 
-## Flags
+For QR code generation: [qrencode](https://fukuchi.org/works/qrencode/index.html.en) ([Homebrew](https://formulae.brew.sh/formula/qrencode))
 
-Use flags in this format: `bash pulp_qr_code.sh -e "https://github.com"`
+## Usage
+
+```sh
+bash src/pulp_import.sh -q "https://github.com"
+```
 
 ### Required
 
-- `-e` to pass in the data to be encoded in the QR code
+The only required input is an image filepath or data to encode a QR code.
+
+| Flag | Environment Variable | Type   | Default | Description                     |
+|:----:|----------------------|--------|:-------:|---------------------------------|
+| `-i` | `IMAGE_FILEPATH`     | string |    ❌    | Input image                     |
+| `-q` | `QR_CODE_DATA`       | string |    ❌    | Input data for QR code encoding |
 
 ### Optional
 
-#### Borders
+#### Strings & Integers
 
-- `-b` to specify the border background color (default: `white`)
+| Flag | Environment Variable    | Type    | Default                   | Description                                                                                                                           |
+|:----:|-------------------------|---------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| `-c` | `BORDER_COLOR`          | string  | `white`                   | Color of the border added to an image                                                                                                 |
+| `-d` | `OUTPUT_DIRECTORY_NAME` | string  | `pulp-import-{timestamp}` | Directory where output file and tiles directory will get created                                                                      |
+| `-g` | `IMAGE_GRAVITY`         | string  | `center`                  | Position of an image in relation to the border (see [documentation](https://imagemagick.org/script/command-line-options.php#gravity)) |
+| `-n` | `TILE_START_INDEX`      | integer | `134`                     | Starting index used to create tiles                                                                                                   |
+| `-r` | `RECOLOR`               | integer | none                      | Color transformation to apply for changing an image to black & white                                                                  |
 
-- `-d` to specify the QR code position (see: [gravity](https://imagemagick.org/script/command-line-options.php#gravity)) (default: center)
+#### Booleans
 
-#### Meta
+| Environment Variable      | Default | Description                                              |
+|---------------------------|:-------:|----------------------------------------------------------|
+| `DELETE_OUTPUT_DIRECTORY` |  `true` | Whether to delete existing files in the output directory |
+| `DELETE_TILES`            | `false` | Whether to delete the tiles directory                    |
+| `OPEN_OUTPUT`             | `false` | Whether to open the output file on completion            |
+| `SILENT`                  | `false` | Whether to suppress all logging except errors            |
+| `VERBOSE`                 | `false` | Whether to log out extra variables useful for debugging  |
 
-- `-d` to specify the name of the output directory; if already exists, files get deleted (default: timestamp)
+## FAQ
 
-- `-o` with any value opens the output file
+- Does this downsize images that are too big for Pulp?
 
-- `-s` with any value silences all logging except failures
+  - No. The only resizing that's considered is when the height or width is not divisible by eight (8) then the image is expanded to be a square divisible by eight.
 
 ## Links
 
