@@ -55,7 +55,7 @@ The only required input is an image filepath or data to encode a QR code.
 
 | Environment Variable      | Default | Description                                              |
 |---------------------------|:-------:|----------------------------------------------------------|
-| `DELETE_OUTPUT_DIRECTORY` |  `true` | Whether to delete existing files in the output directory |
+| `DELETE_OUTPUT_DIRECTORY` | `false` | Whether to delete existing files in the output directory |
 | `DELETE_TILES`            | `false` | Whether to delete the tiles directory                    |
 | `OPEN_OUTPUT`             | `false` | Whether to open the output file on completion            |
 | `SILENT`                  | `false` | Whether to suppress all logging except errors            |
