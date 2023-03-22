@@ -8,6 +8,7 @@ get_transformation() {
   fi
 
   case $RECOLOR in
+    invert) transformation="-channel RGB -negate" ;;
     0) transformation="-alpha off -threshold 50%" ;;
     1) transformation="-alpha off -auto-threshold otsu" ;;
     2) transformation="-monochrome" ;;

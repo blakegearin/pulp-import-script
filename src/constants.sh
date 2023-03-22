@@ -107,7 +107,6 @@ find_output_directory() {
       check_source_for_output_directory
     fi
   else
-    OUTPUT_DIRECTORY_NAME=$(date +"pulp-import-%s")
     check_source_for_output_directory
   fi
 }

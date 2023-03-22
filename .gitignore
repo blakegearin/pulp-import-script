@@ -1,2 +1,5 @@
 pulp-import-*/
 output/
+tiles/
+pulp-tiles-*
+qr_code*
