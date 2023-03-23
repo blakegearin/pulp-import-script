@@ -28,15 +28,24 @@ It is not sponsored, endorsed, licensed by, or affiliated with Panic.
 
 ## Getting Started
 
-1. Install [Homebrew](https://brew.sh/) (optional)
+1. Prepare your OS
+
+   - Windows
+     1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+     1. Install [Ubuntu](https://apps.microsoft.com/store/detail/ubuntu/9PDXGNCFSCZV?hl=en-us&gl=us&rtc=1)
+   - macOS
+     1. Optionally install [Homebrew](https://brew.sh/) for easier installs
+
 1. Install Imagemagick
 
    - Homebrew: `brew install imagemagick`
+   - Ubuntu: `sudo apt-get install imagemagick`
    - [Manually download](https://imagemagick.org/script/download.php)
 
-1. Install `libqrencode` if you need QR code generation (optional)
+1. Optionally install `libqrencode` if you need QR code generation
 
    - Homebrew: `brew install qrencode`
+   - Ubuntu: `sudo apt-get install qrencode`
    - [Manually download](https://github.com/fukuchi/libqrencode/releases)
 
 1. Clone this repository
