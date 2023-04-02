@@ -26,6 +26,7 @@ resize_image() {
   if [ "$VERBOSE" == true ]; then
     echo_var update_command
   fi
+
   eval $update_command
 
   check_failure $? "Update"
@@ -104,6 +105,7 @@ if [ -n "$QR_CODE_DATA" ]; then
   if [ "$VERBOSE" == true ]; then
     echo_var create_qr_command
   fi
+
   eval $create_qr_command
 
   check_failure $? "Creation"
@@ -122,6 +124,7 @@ elif [ -n "$IMAGE_FILEPATH" ]; then
   if [ "$VERBOSE" == true ]; then
     echo_var copy_command
   fi
+
   eval $copy_command
 
   check_failure $? "Copy"
@@ -167,6 +170,9 @@ elif ((image_height % pulp_tile_size != 0)) && (( image_height >= image_width ))
 fi
 
 tiles_directory="$output_directory/tiles"
+if [ "$VERBOSE" == true ]; then
+  echo_var tiles_directory
+fi
 
 echo_loading "Checking if tiles directory exists: $tiles_directory"
 if [ -d "$tiles_directory" ]; then
@@ -180,6 +186,7 @@ else
   if [ "$VERBOSE" == true ]; then
     echo_var create_tiles_dir_command
   fi
+
   eval $create_tiles_dir_command
 
   check_failure $? "Creation"
@@ -193,6 +200,53 @@ fi
 eval $split_command
 
 check_failure $? "Split"
+
+if [ "$DELETE_SOLID_TILES" == true ]; then
+  echo_loading "Checking for solid tiles"
+
+  declare -a solid_tiles
+
+  for file in "$tiles_directory"/*; do
+    if [ -f "$file" ]; then
+      solid_check_command="convert '$file' -colorspace gray -format '%[fx:standard_deviation<=0.01?1:0]' info:"
+      if [ "$VERBOSE" == true ]; then
+        echo_var solid_check_command
+      fi
+
+      is_tile_solid=$(eval $solid_check_command)
+
+      if [ "$VERBOSE" == true ]; then
+        echo_var is_tile_solid
+      fi
+
+      if [ "$is_tile_solid" -eq 1 ]; then
+        if [ "$VERBOSE" == true ]; then
+          echo -e "Adding file to solid_tiles: $file"
+        fi
+
+        solid_tiles+=("$file")
+      fi
+    fi
+  done
+
+  if [ "$VERBOSE" == true ]; then
+    echo_var solid_tiles
+  fi
+
+  for delete_tile in "${solid_tiles[@]}"; do
+    echo_loading "Deleting solid tile: $delete_tile"
+
+    delete_solid_tile_command="rm $delete_tile"
+
+    if [ "$VERBOSE" == true ]; then
+      echo_var delete_solid_tile_command
+    fi
+
+    eval $delete_solid_tile_command
+
+    check_failure $? "Delete"
+  done
+fi
 
 tile_amount=$(ls -1q $tiles_directory | wc -l | xargs)
 if [ "$VERBOSE" == true ]; then
@@ -212,6 +266,7 @@ combine_command="montage '$tiles_directory/pulp-tiles-*-layer-${LAYER_NAME}-coun
 if [ "$VERBOSE" == true ]; then
   echo_var combine_command
 fi
+
 eval $combine_command
 
 check_failure $? "Combine"
@@ -223,6 +278,7 @@ if [ "$DELETE_TILES" == true ]; then
   if [ "$VERBOSE" == true ]; then
     echo_var delete_dir_command
   fi
+
   eval $delete_dir_command
 
   check_failure $? "Delete"
@@ -241,6 +297,7 @@ if [ "$DELETE_SOURCE_IMAGE" == true ]; then
   if [ "$VERBOSE" == true ]; then
     echo_var delete_image_command
   fi
+
   eval $delete_image_command
 
   check_failure $? "Delete"
@@ -252,10 +309,12 @@ fi
 
 if [ "$OPEN_OUTPUT" == true ]; then
   echo_loading "Opening output file"
+
   open_command="open '$output_filepath'"
   if [ "$VERBOSE" == true ]; then
     echo_var open_command
   fi
+
   eval $open_command
 fi
 

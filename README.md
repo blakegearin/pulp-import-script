@@ -60,7 +60,7 @@ It is not sponsored, endorsed, licensed by, or affiliated with Panic.
 cd pulp-import-script
 
 # Image filepath input
-bash src/pulp_import.sh -l "Items" -i ~/Downloads/my_amazing_image.png
+bash src/pulp_import.sh -l "Items" -i "~/Downloads/my_amazing_image.png"
 
 # QR code data input
 bash src/pulp_import.sh  -l "Player" -q "https://github.com"
@@ -80,11 +80,11 @@ The required input parameters are:
 
    - image filepath _**OR**_ data to encode a QR code
 
-| Flag  | Environment Variable | Type   | Default | Description                               |
-| :---: | -------------------- | ------ | :-----: | ----------------------------------------- |
-| `-l`  | `LAYER_NAME`         | string |    ❌    | The Pulp layer that will be imported into |
-| `-i`  | `IMAGE_FILEPATH`     | string |    ❌    | Location of image to be processed         |
-| `-q`  | `QR_CODE_DATA`       | string |    ❌    | Data to encode into QR code               |
+| Flag  | Environment Variable | Type   | Default | Description                                       |
+| :---: | -------------------- | ------ | :-----: | ------------------------------------------------- |
+| `-l`  | `LAYER_NAME`         | string |  none   | The layer in Pulp the tiles will be imported into |
+| `-i`  | `IMAGE_FILEPATH`     | string |  none   | Location of image to be processed                 |
+| `-q`  | `QR_CODE_DATA`       | string |  none   | Data to encode into QR code                       |
 
 ### Optional Parameters
 
@@ -99,20 +99,21 @@ The required input parameters are:
 | `-o`  | `TILE_INDEX_ZERO_PADDING` | integer | `4`                       | Number of zeros to be padded on filenames of PNG tiles; setting too low can cause failure or improper ordering (e.g. 11 before 2)     |
 | `-q`  | `QR_ENCODE_OPTIONS`       | string  | none                      | Pass in custom options to `libqrencode`, like `-M` for micro QR codes; see all options with `qrencode --help`                         |
 | `-r`  | `RECOLOR`                 | integer | none                      | Color transformation to apply for changing an image to black & white                                                                  |
-| `-s`  | `QR_CODE_SCALE`           | integer | `1`                       | The "module size" of the QR code; use to increase its size                                                                            |
+| `-s`  | `QR_CODE_SCALE`           | integer | `1`                       | The size of the blocks in a QR code; use to increase the size of the QR code                                                          |
 | `-z`  | `OUTPUT_ID`               | integer | none                      | Identification number to include in the filename of the primary output PNG                                                            |
 
 #### Booleans
 
-| Environment Variable      | Default | Description                                                                                                      |
-| ------------------------- | :-----: | ---------------------------------------------------------------------------------------------------------------- |
-| `INVERT`                  | `false` | Whether to invert the colors of the image                                                                        |
-| `DELETE_OUTPUT_DIRECTORY` | `false` | Whether to delete existing files in a preexisting output directory                                               |
-| `DELETE_TILES`            | `false` | Whether to delete the tiles directory                                                                            |
-| `DELETE_SOURCE_IMAGE`     | `false` | Whether to delete the source image that's being chunked; could be the QR code image or a copy of the input image |
-| `OPEN_OUTPUT`             | `false` | Whether to open the output file on completion                                                                    |
-| `SILENT`                  | `false` | Whether to suppress all logging except errors                                                                    |
-| `VERBOSE`                 | `false` | Whether to log out extra variables useful for debugging                                                          |
+| Environment Variable      | Default | Description                                                                                                    |
+| ------------------------- | :-----: | -------------------------------------------------------------------------------------------------------------- |
+| `INVERT`                  | `false` | Whether to invert the colors of the image                                                                      |
+| `DELETE_SOLID_TILES`      | `false` | Whether to exclude tiles that are only one color                                                               |
+| `DELETE_OUTPUT_DIRECTORY` | `false` | Whether to delete existing files in a preexisting output directory                                             |
+| `DELETE_TILES`            | `false` | Whether to delete the tiles directory                                                                          |
+| `DELETE_SOURCE_IMAGE`     | `false` | Whether to delete the source image that's being tiled; could be the QR code image or a copy of the input image |
+| `OPEN_OUTPUT`             | `false` | Whether to open the output file on completion                                                                  |
+| `SILENT`                  | `false` | Whether to suppress all logging except errors                                                                  |
+| `VERBOSE`                 | `false` | Whether to log out extra variables useful for debugging                                                        |
 
 ## FAQ
 
