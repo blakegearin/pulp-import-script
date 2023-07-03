@@ -1,5 +1,5 @@
 <p align="center">
-  <img id="logo" src="https://raw.githubusercontent.com/blakegearin/pulp-import-script/main/images/logo.png" class="center" alt="Pulp Import Script logo" title="Pulp Import Script" width="500" height="500"/>
+  <img id="logo" src="https://raw.githubusercontent.com/blakegearin/pulp-import-script/main/images/logo.png" class="center" alt="Pulp Import Script logo" title="Pulp Import Script" width="50%" />
 </p>
 
 # Pulp Import Script
