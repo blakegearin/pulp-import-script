@@ -94,13 +94,6 @@ if [ -n "$QR_CODE_DATA" ]; then
 
   echo_loading "Creating QR code with data: $QR_CODE_DATA"
 
-  # if [ "$INVERT" == true ]; then
-  #   colors='--foreground=ffffff --background=000000'
-  # else
-  #   colors=''
-  # fi
-
-  # create_qr_command="qrencode $colors -m 0 -s $QR_CODE_SCALE -o $QR_ENCODE_OPTIONS '$IMAGE_FILEPATH' '$QR_CODE_DATA'"
   create_qr_command="qrencode -m 0 -s $QR_CODE_SCALE -o $QR_ENCODE_OPTIONS '$IMAGE_FILEPATH' '$QR_CODE_DATA'"
   if [ "$VERBOSE" == true ]; then
     echo_var create_qr_command
